@@ -26,7 +26,7 @@
       <div class="container-fluid">
          <div class="card card-primary">
             <div class="card-header">
-               <h3 class="card-title float-right"><a class="btn btn-success" href="<?php echo base_url();?>client/report/" traget="_blank">Send Report</a></h3>
+               <h3 class="card-title float-right"><a class="btn btn-success" href="<?php echo base_url();?>client/report/" traget="_blank">File a Complaint</a></h3>
             </div>
             <div class="card-body">
                <table id="dt_complaint_list" class="table table-bordered table-striped">
@@ -74,16 +74,6 @@
                      </tr>
                      <?php endforeach; ?>
                   </tbody>
-                  <tfoot>
-                     <tr>
-                       <th>Complaint #</th>
-                        <th>Complaint Title</th>
-                        <th>Date Submitted</th>
-                        <th>Date Solved</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                     </tr>
-                  </tfoot>
                </table>
             </div>
          </div>

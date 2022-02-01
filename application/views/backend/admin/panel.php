@@ -23,7 +23,7 @@
 
    <div class="content">
       <div class="row container-fluid">
-         <div class="col-lg-3 col-6">
+         <div class="col-lg-6 col-12">
             <!-- small box -->
             <div class="small-box bg-primary">
                <div class="inner">
@@ -35,31 +35,7 @@
                </div>
             </div>
          </div>
-         <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-               <div class="inner">
-                  <h3><?php echo $this->crud_model->count_daily_report_recieve();?></h3>
-                  <p>Daily Report Received</p>
-               </div>
-               <div class="icon">
-                  <i class="fas fa-address-book fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-         <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-               <div class="inner">
-                  <h3><?php echo $this->crud_model->count_total_report_received();?></h3>
-                  <p>Total Report Recieved</p>
-               </div>
-               <div class="icon">
-                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-         <div class="col-lg-3 col-6">
+         <div class="col-lg-6 col-12">
             <!-- small box -->
             <div class="small-box bg-info">
                <div class="inner">
@@ -72,6 +48,43 @@
             </div>
          </div>
 
+         <div class="col-lg-4 col-12">
+            <!-- small box -->
+            <div class="small-box bg-success">
+               <div class="inner">
+                  <h3><?php echo $this->crud_model->count_daily_report_recieve();?></h3>
+                  <p>Daily Report Received</p>
+               </div>
+               <div class="icon">
+                  <i class="fas fa-address-book fa-2x text-gray-300"></i>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-4 col-12">
+            <!-- small box -->
+            <div class="small-box bg-purple">
+               <div class="inner">
+                  <h3><?php echo $this->crud_model->count_endorsed_report();?></h3>
+                  <p>Total Endorsed Report</p>
+               </div>
+               <div class="icon">
+                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-4 col-12">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+               <div class="inner">
+                  <h3><?php echo $this->crud_model->count_total_report_received();?></h3>
+                  <p>Total Report Recieved</p>
+               </div>
+               <div class="icon">
+                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+               </div>
+            </div>
+         </div>
+         
          <div class="col-lg-12 col-12">
             <div class="card">
                <div class="card-header">

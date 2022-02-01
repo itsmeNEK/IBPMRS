@@ -1,3 +1,4 @@
+<?php $ip_address = $this->db->get_where('settings' , array('type'=>'ip_address'))->row()->description;?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
    <!-- Content Header (Page header) -->
@@ -71,20 +72,23 @@
                         ?>
                         <tr>
                            <td><?php echo $ctr.'.)'; ?></td>
-                           <td><?php echo strtoupper($row['complaint_code']); ?></td>
+                           <td><?php echo "#".strtoupper($row['complaint_code']); ?></td>
                            <td><?php echo $row['complaint_title']; ?></td>
                            <td class="text-center">
                               <?php
                                  if ($row['status'] == 0) {
-                                     echo '<span class="badge badge-danger">PENDING</span>';
+                                    echo '<span class="badge badge-danger">PENDING</span>';
                                  }
                                  else if ($row['status'] == 1) {
                                     echo '<span class="badge badge-warning">UNDER REVIEW . . .</span>';
                                  }
                                  else if ($row['status'] == 2){
-                                     echo '<span class="badge badge-success">RESOLVED</span>';
-                                 }  
-                              ?>  
+                                    echo '<span class="badge badge-warning">TO BE ENDORSED . . .</span>';
+                                 }
+                                 else if ($row['status'] == 3){
+                                    echo '<span class="badge badge-success">RESOLVED</span>';
+                                 }      
+                              ?> 
                            </td>
                            <td class="text-center">
                               <a class="btn btn-info btn-xs" href="<?php echo base_url().'client/view_report/'.$row['complaint_code']?>" target="_blank">View Report</a>
@@ -175,7 +179,8 @@
       var img = new Image();
 
       var user_id = $("#uid").val();
-      var link = "<?php echo base_url()."index/summary_report/";?>" + user_id;
+      //var link = "<?php //echo base_url()."index/summary_report/";?>" + user_id;
+      var link = "<?php echo "http://".$ip_address."/pmrs2/index/summary_report/";?>" + user_id;
 
       img.src = "https://chart.googleapis.com/chart?cht=qr&chl=" + link + "&chs=120x120&chld=L|0";
        

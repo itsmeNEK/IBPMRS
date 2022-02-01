@@ -1,3 +1,4 @@
+<?php $ip_address = $this->db->get_where('settings' , array('type'=>'ip_address'))->row()->description;?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
    <!-- Content Header (Page header) -->
@@ -37,6 +38,8 @@
                      $resp_data = json_decode($row['respondent_info']);
                      $coa_data = json_decode($row['coa_details']);
                      $relief_data = json_decode($row['relief_details']);
+                     $wc = json_decode($row['witness_conf']);
+                     $sss = json_decode($row['subs_sworn_conf']);
                ?>
                <div class="row container-fluid mb-3">
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -44,14 +47,17 @@
                         Complaint Status: 
                         <?php
                            if ($row['status'] == 0) {
-                               echo '<span class="badge badge-danger">PENDING</span>';
+                              echo '<span class="badge badge-danger">PENDING</span>';
                            }
                            else if ($row['status'] == 1) {
                               echo '<span class="badge badge-warning">UNDER REVIEW . . .</span>';
                            }
                            else if ($row['status'] == 2){
-                               echo '<span class="badge badge-success">RESOLVED</span>';
-                           }  
+                              echo '<span class="badge badge-warning">TO BE ENDORSED . . .</span>';
+                           }
+                           else if ($row['status'] == 3){
+                              echo '<span class="badge badge-success">RESOLVED</span>';
+                           }      
                         ?>
                      </label>
                   </div>
@@ -110,6 +116,7 @@
                      </div>
                   </div>
                </div>
+               
                <label>3. NAME/S OF RESPONDENT/S:</label>
                <div class="row container-fluid mb-3">
                   <div class="col-lg-7 col-md-7 col-sm-12 col-12">
@@ -258,13 +265,9 @@
                         <label for="customFile">Upload Evidences:</label>
                         <div class="col-sm-12">
                            <div class="form-group text-center">
-                             <span id="uploaded_image"></span>
-                           </div>
-                           <div class="form-group text-center">
-                              <input type="file" name="evidence" id="evidence" class="inputfile inputfile-3" style="display:none"/>
-                              <label style="font-size:15px;" title="Maximum upload is 10mb">
+                              <label style="font-size:15px;">
                                  <img class="img-fluid img-responsive" height="350" width="350" src="<?php echo base_url().'uploads/evidence_image/'.$row['evidence_image_link'];?>">
-                             </label>
+                              </label>
                            </div>
                         </div>
                      </div>
@@ -288,7 +291,7 @@
 
                <label>8. RELIEF: COMPLAINANT/S PRAY FOR THE FOLLOWING:</label>
                <div class="row container-fluid mb-5">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
                      <div class="form-group">
                         <div class="custom-control custom-checkbox mb-2">
                            <input class="custom-control-input" type="checkbox" <?php if($relief_data->option1 == '1'){echo 'checked';}?> disabled>
@@ -308,6 +311,127 @@
                            </div>
                         </div>
                      </div>
+                  </div>
+                  <div class="container text-center">
+                     <div class="form-group row">
+                        <label class="col-xs-5 col-form-label">IN WITNESS WHEREOF, I HAVE HERUNTO SET MY HAND THIS </label>
+                        <input type="text" class="col-sm-1 form-control form-control-border border-width-2" value="<?php echo $wc->day;?>" disabled>
+                        <label class="col-xs-1 col-form-label">DAY OF </label>
+                        <input type="text" class="col-sm-1 form-control form-control-border border-width-2" value="<?php echo $wc->month;?>" disabled>
+                        <label class="col-xs-1 col-form-label">, </label>
+                        <input type="text" class="col-sm-1 form-control form-control-border border-width-2" value="<?php echo $wc->year;?>" disabled>
+                        <label class="col-xs-1 col-form-label">, IN </label>
+                        <input type="text" class="col-sm-3 form-control form-control-border border-width-2" value="<?php echo $wc->location;?>" disabled>
+                        <label class="col-xs-1 col-form-label">.</label>
+                     </div>
+                  </div>
+                  <div class="row container-fluid">
+                     <div class="col-md-3">
+                     </div>
+                     <div class="col-md-6"></div>
+                     <div class="col-md-3">
+                        <div class="form-group">
+                           <div class="col-sm-12">
+                              <div class="form-group text-center">
+                                 <label style="font-size:15px;">
+                                    <img class="img-fluid img-responsive" height="240" width="350" src="<?php echo base_url().'uploads/signature_image/'.$row['signature_link'];?>">
+                                 </label>
+                              </div>
+                           </div>
+                           <center><label for="customFile">Signature</label></center>
+                        </div> 
+                     </div>
+                  </div>
+               </div>
+
+               <div class="container">
+                  <h5 class="text-center mb-5"><strong>VERIFICATION/CERTIFICATION</strong></h5>
+                  <p class="mb-4">THE COMPLAINANT/S, UNDER OATH, HEREBY DEPOSE/S AND SAY/S:</p>
+                  <p class="mb-3">A.) THAT HE/SHE/THEY IS/ARE THE COMPLAINT/S IN TH CASE:</p>
+                  <p class="mb-3">B.) THAT HE/SHE/THEY HAS/HAVE READ AND UNDERSTOOD THE CONTENTS THEREOF:</p>
+                  <p class="mb-3">C.) THAT THE ALLEGATIONS THEREIN ARE TRUE AND CORRECT OF HIS/HER/THEIR OWN PERSONAL KNOWLEDGE AND BELIEF</p>
+                  <p class="mb-3" style="line-height: 30px;">D.) THAT FURTHER HE/SHE/THEY CERTIFY THAT AS OF THIS DATE, HE/SHE/THEY HAS/HAVE NOT FILED IN ANY COURT, TRIBUNAL, OR QUASI-JUDICIAL AGENCY, OTHER ACTION/S OR CLAIMS INVOLVING THE SAME PARTIES AND THE SAME ISSUES.  SHOULD HE/SHE/THEY FIND/S THEREAFTER THAT A SIMILAR ACTION OR CLAIM IS FILED OR PENDING IN ANY OTHER COURT, TRIBUNAL, OR QUASI-JUDICIAL AGENCY, HE/SHE/THEY SHALL REPORT THE SAME WITHIN FIVE (5) DAYS THEREFROM TO THIS HONORABLE OFFICE.</p>
+               </div>
+               <div class="row container-fluid mt-3 mb-5">
+                  <div class="col-md-3">
+                  </div>
+                  <div class="col-md-6"></div>
+                  <div class="col-md-3">
+                     <div class="form-group">
+                        <div class="col-sm-12">
+                           <div class="form-group text-center">
+                              <label style="font-size:15px;">
+                                 <img class="img-fluid img-responsive" height="240" width="350" src="<?php echo base_url().'uploads/signature_image/'.$row['signature_link'];?>">
+                              </label>
+                           </div>
+                        </div>
+                        <center><label for="customFile">Signature</label></center>
+                     </div> 
+                  </div>
+               </div>
+
+               <div class="container mb-5">
+                  <div class="form-group row">
+                     <label class="col-xs-1 col-form-label">SUBSCRIBED AND SWORN TO THIS</label>
+                     <input type="text" class="col-sm-1 form-control form-control-border border-width-2 mb-4" value="<?php echo $sss->day;?>" disabled>
+                     <label class="col-xs-1 col-form-label">DAY OF </label>
+                     <input type="text" class="col-sm-1 form-control form-control-border border-width-2 mb-4" value="<?php echo $sss->month;?>" disabled>
+                     <label class="col-xs-1 col-form-label">, AFFAINT/S HAVING EXHIBITED TO ME HIS/HER/THEIR COMMUNITY TAX CERTIFICATE NO. </label>
+                     <input type="text" class="col-sm-3 form-control form-control-border border-width-2 mb-4" value="<?php echo $sss->cedula;?>" disabled>
+                     <label class="col-xs-1 col-form-label">ISSUED ON</label>
+                     <input type="text" class="col-sm-3 form-control form-control-border border-width-2 mb-4" value="<?php echo $sss->date_issued;?>" disabled>
+                     <label class="col-xs-1 col-form-label">AT</label>
+                     <input type="text" class="col-sm-4 form-control form-control-border border-width-2 mb-4" value="<?php echo $sss->loc_issued;?>" disabled>
+                     <label class="col-xs-4 col-form-label">AND HIS/HER/THEIR GOVERNMENT-ISSUED IDENTIFICATION CARD NO.</label>
+                     <input type="text" class="col-sm-3 form-control form-control-border border-width-2 mb-2" value="<?php echo $sss->govid_no;?>" disabled>
+                     <label class="col-xs-1 col-form-label">, AS FOLLOWS:</label>
+                  </div>
+               </div>
+               <label>ADDITIONAL DOCUMENTS NEEDED</label>
+               <div class="row container-fluid mb-5">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                     <!-- image input -->
+                     <div class="form-group">
+                        <label for="customFile">Identification Card (ID):</label>
+                        <div class="col-sm-12">
+                           <div class="form-group text-center">
+                              <label style="font-size:15px;">
+                                 <img class="img-fluid img-responsive" height="350" width="350" src="<?php echo base_url().'uploads/idcard_image/'.$row['idcard_image_link'];?>">
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- image input -->
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                     <!-- image input -->
+                     <div class="form-group">
+                        <label for="customFile">Community Tax Certificate (CEDULA):</label>
+                        <div class="col-sm-12">
+                           <div class="form-group text-center">
+                              <label style="font-size:15px;">
+                                 <img class="img-fluid img-responsive" height="350" width="350" src="<?php echo base_url().'uploads/cedula_image/'.$row['cedula_image_link'];?>">
+                             </label>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- image input -->
+                  </div>
+               </div>
+               <div class="row container-fluid mt-3 mb-5">
+                  <div class="col-md-3">
+                  </div>
+                  <div class="col-md-6"></div>
+                  <div class="col-md-3">
+                     <div class="form-group">
+                        <div class="col-sm-12">
+                           <div class="form-group text-center">
+                              <label style="font-size:15px;">
+                                 <img class="img-fluid img-responsive" height="240" width="350" src="<?php echo base_url().'uploads/admin_sign.png'?>">
+                              </label>
+                           </div>
+                        </div>
+                     </div> 
                   </div>
                </div>
             </div>
@@ -342,9 +466,10 @@
       var img = new Image();
 
       var comp_code = $("#comp_code").val();
-      var link = "<?php echo base_url()."index/complaint_report_details/";?>" + comp_code;
+      //var link = "<?php //echo base_url()."index/complaint_report_details/";?>" + comp_code;
+      var link = "<?php echo "http://".$ip_address."/pmrs2/index/complaint_report_details/";?>" + comp_code;
 
-      img.src = "https://chart.googleapis.com/chart?cht=qr&chl=" + link + "&chs=120x120&chld=L|0";
+      img.src = "https://chart.googleapis.com/chart?cht=qr&chl=" + link + "&chs=140x140&chld=L|0";
        
       $('#view_qrcode').html(img);
 

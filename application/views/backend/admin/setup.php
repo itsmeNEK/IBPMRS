@@ -35,6 +35,7 @@
                         <thead>
                            <tr>
                               <th>Commodity</th>
+                              <th>Category</th>
                               <th>Status</th>
                               <th>Option</th>
                            </tr>
@@ -49,6 +50,17 @@
                               <td><?php echo $row['name']; ?></td>
                               <td class="text-center">
                                  <?php
+                                    if ($row['category'] == 1) {
+                                       echo '<span class="badge badge-primary">BASIC NECESSITIES</span>';
+                                    }
+                                    else{
+                                      echo '<span class="badge badge-info">PRIME COMMODITIES</span>';
+                                    } 
+                                     
+                                 ?>
+                              </td>
+                              <td class="text-center">
+                                 <?php
                                     if ($row['status'] == 1) {
                                        echo '<span class="badge badge-success">ACTIVE</span>';
                                     }
@@ -59,19 +71,12 @@
                                  ?>
                               </td>
                               <td class="text-center">
-                                 <button class="btn btn-sm btn-success" onclick="view_commodity_info('<?php echo $row['Id']; ?>','<?php echo $row['name']; ?>','<?php echo $row['status']; ?>');">UPDATE</button>
-                                 <button class="btn btn-sm btn-danger" onclick="remove_commodity('<?php echo $row['Id']; ?>')">DELETE</button>
+                                 <button class="btn btn-sm btn-success mb-1" onclick="view_commodity_info('<?php echo $row['Id']; ?>','<?php echo $row['name']; ?>','<?php echo $row['status']; ?>');">UPDATE</button>
+                                 <button class="btn btn-sm btn-danger mb-1" onclick="remove_commodity('<?php echo $row['Id']; ?>')">DELETE</button>
                               </td>
                            </tr>
                            <?php endforeach; ?>
                         </tbody>
-                        <tfoot>
-                           <tr>
-                              <th>Commodity</th>
-                              <th>Status</th>
-                              <th>Option</th>
-                           </tr>
-                        </tfoot>
                      </table>
                   </div>
                </div>
@@ -87,6 +92,7 @@
                         <thead>
                            <tr>
                               <th>Unit</th>
+                              <th>Description</th>
                               <th>Status</th>
                               <th>Option</th>
                            </tr>
@@ -99,6 +105,7 @@
                               ?>
                            <tr>
                               <td><?php echo $row['name']; ?></td>
+                              <td><?php echo $row['description']; ?></td>
                               <td class="text-center">
                                  <?php
                                     if ($row['status'] == 1) {
@@ -110,19 +117,12 @@
                                  ?>
                               </td>
                               <td class="text-center">
-                                 <button class="btn btn-sm btn-success" onclick="view_unit_info('<?php echo $row['Id']; ?>','<?php echo $row['name']; ?>','<?php echo $row['status']; ?>');">UPDATE</button>
-                                 <button class="btn btn-sm btn-danger" onclick="remove_unit('<?php echo $row['Id']; ?>')">DELETE</button>
+                                 <button class="btn btn-sm btn-success mb-1" onclick="view_unit_info('<?php echo $row['Id']; ?>','<?php echo $row['name']; ?>','<?php echo $row['description']; ?>','<?php echo $row['status']; ?>');">UPDATE</button>
+                                 <button class="btn btn-sm btn-danger mb-1" onclick="remove_unit('<?php echo $row['Id']; ?>')">DELETE</button>
                               </td>
                            </tr>
                            <?php endforeach; ?>
                         </tbody>
-                        <tfoot>
-                           <tr>
-                              <th>Unit</th>
-                              <th>Status</th>
-                              <th>Option</th>
-                           </tr>
-                        </tfoot>
                      </table>
                   </div>
                </div>
@@ -153,6 +153,16 @@
                         <input type="text" class="form-control" name="comm_name" id="comm_name" required="">
                      </div>
                   </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                     <label>Commodity Category</label>
+                     <div class="form-group mb-3">
+                        <select class="custom-select" name="comm_categ" id="comm_categ" required>
+                           <option value="">Select Category</option>
+                           <option value="1">Basic Necessities</option>
+                           <option value="2">Prime Commodities</option>
+                        </select>
+                     </div>
+                  </div>
                </div>
             </form>
          </div>
@@ -180,6 +190,16 @@
                      <label>Commodity Name</label>
                     <div class="form-group mb-3">
                         <input type="text" class="form-control" name="up_comm_name" id="up_comm_name" required="">
+                     </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                     <label>Commodity Category</label>
+                     <div class="form-group mb-3">
+                        <select class="custom-select" name="up_comm_categ" id="up_comm_categ" required>
+                           <option value="">Select Category</option>
+                           <option value="1">Basic Necessities</option>
+                           <option value="2">Prime Commodities</option>
+                        </select>
                      </div>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
@@ -220,6 +240,12 @@
                         <input type="text" class="form-control" name="unit_name" id="unit_name" required="">
                      </div>
                   </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                     <label>Unit Description</label>
+                     <div class="form-group mb-3">
+                        <input type="text" class="form-control" name="unit_desc" id="unit_desc" required="">
+                     </div>
+                  </div>
                </div>
             </form>
          </div>
@@ -250,6 +276,12 @@
                      </div>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                     <label>Unit Description</label>
+                     <div class="form-group mb-3">
+                        <input type="text" class="form-control" name="up_unit_desc" id="up_unit_desc" required="">
+                     </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
                      <label>Units</label>
                      <div class="form-group">
                         <select class="custom-select" name="up_unit_sts" id="up_unit_sts" required>
@@ -272,7 +304,7 @@
 <script type="text/javascript">
    $(document).ready(function(){
       $("#dt_comm_list").DataTable({
-         "responsive": true, "lengthChange": false, "autoWidth": false,
+         "responsive": true, "lengthChange": false, "autoWidth": true,
          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
    
@@ -302,10 +334,11 @@
 
    }
 
-   function view_commodity_info($id,$name,$status) {
+   function view_commodity_info($id,$name,$categ,$status) {
 
       $("#comm_id").val($id);
       $("#up_comm_name").val($name);
+      $("#up_comm_categ").val($categ);
       $("#up_comm_sts").val($status);
       $("#edit_comm_type").modal('show');
 
@@ -380,10 +413,11 @@
 
    }
 
-   function view_unit_info($id,$name,$status) {
+   function view_unit_info($id,$name,$desc,$status) {
 
       $("#unit_id").val($id);
       $("#up_unit_name").val($name);
+      $("#up_unit_desc").val($desc);
       $("#up_unit_sts").val($status);
       $("#edit_unit_type").modal('show');
 

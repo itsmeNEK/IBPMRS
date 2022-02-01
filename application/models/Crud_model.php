@@ -206,6 +206,14 @@
 
       }
 
+      function count_endorsed_report(){
+
+         $sql = $this->db->query("SELECT count(*) AS total_endorse_report FROM report WHERE status = 2")->row()->total_endorse_report;
+
+         return $sql;
+
+      }
+
       // function count_pending_users(){
 
       //    $q = execute_query($con, "SELECT count(*) AS total_user FROM user_account WHERE type <> '1' AND STATUS = '0';");
@@ -214,7 +222,13 @@
 
       //    return $val['total_user'];
 
-      // }   
+      // }
+
+      //Create a function to encode the URL
+      function encodeURIComponent($str){
+         $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+         return strtr(rawurlencode($str), $revert);
+      }   
 
    } 
    

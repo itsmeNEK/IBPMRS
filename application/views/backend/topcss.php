@@ -16,3 +16,14 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/sweetalert/sweetalert.css">
 <!-- Toastr -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/toastr/toastr.min.css">
+<!--  jQuery UI Signature Basics -->
+<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/plugins/esignature/css/jquery.signature.css">
+
+<style>
+	.kbw-signature { width: 300px; height: 150px;}
+	#signature canvas{
+		width: 100% !important;
+		height: auto;
+	}
+</style>

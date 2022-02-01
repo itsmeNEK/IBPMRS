@@ -72,18 +72,6 @@
                      </tr>
                      <?php endforeach; ?>
                   </tbody>
-                  <tfoot>
-                     <tr>
-                        <th>User ID</th>
-                        <th>Fullname</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Email</th>
-                        <th>Date Created</th>
-                        <th>Status</th>
-                        <th>Option</th>
-                     </tr>
-                  </tfoot>
                </table>
             </div>
          </div>

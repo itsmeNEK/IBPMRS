@@ -26,3 +26,7 @@
 <script src="<?php echo base_url(); ?>assets/plugins/toastr/toastr.min.js"></script>
 <!-- ChartJS -->
 <script src="<?php echo base_url(); ?>assets/plugins/chart.js/Chart.min.js"></script>
+<!--  jQuery UI Signature Basics -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/plugins/esignature/js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/plugins/esignature/js/jquery.signature.min.js"></script>

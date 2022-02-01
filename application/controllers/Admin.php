@@ -65,6 +65,7 @@ class Admin extends CI_Controller {
             $data['name'] = $this->input->post('prod_name');
             $data['commodity_id'] = $this->input->post('comm_type');
             $data['unit_id'] = $this->input->post('units');
+            $data['quantity'] = $this->input->post('qty');
             $data['srp'] = $this->input->post('srp');
             $data['date_added'] = date('Y-m-d h:i:s');
             $data['status'] = 1;
@@ -78,6 +79,7 @@ class Admin extends CI_Controller {
             $data['name'] = $this->input->post('up_prod_name');
             $data['commodity_id'] = $this->input->post('up_comm_type');
             $data['unit_id'] = $this->input->post('up_units');
+            $data['quantity'] = $this->input->post('up_qty');
             $data['srp'] = $this->input->post('up_srp');
             $data['status'] = $this->input->post('up_prod_sts');;
 
@@ -180,6 +182,7 @@ class Admin extends CI_Controller {
         if ($param1 == "comm_add") 
         {
             $data['name'] = $this->input->post('comm_name');
+            $data['category'] = $this->input->post('comm_categ');
             $data['date_added'] = date('Y-m-d h:i:s');
             $data['status'] = 1;
 
@@ -190,6 +193,7 @@ class Admin extends CI_Controller {
             $comm_id = $this->input->post('comm_id');
             
             $data['name'] = $this->input->post('up_comm_name');
+            $data['category'] = $this->input->post('up_comm_categ');
             $data['status'] = $this->input->post('up_comm_sts');;
 
             $this->db->where('Id', $comm_id);
@@ -207,6 +211,7 @@ class Admin extends CI_Controller {
         if ($param1 == "unit_add") 
         {
             $data['name'] = $this->input->post('unit_name');
+            $data['description'] = $this->input->post('unit_desc');
             $data['status'] = 1;
 
             $this->db->insert('units', $data);
@@ -216,7 +221,8 @@ class Admin extends CI_Controller {
             $un_id = $this->input->post('unit_id');
             
             $data['name'] = $this->input->post('up_unit_name');
-            $data['status'] = $this->input->post('up_unit_sts');;
+            $data['description'] = $this->input->post('up_unit_desc');
+            $data['status'] = $this->input->post('up_unit_sts');
 
             $this->db->where('Id', $un_id);
             $this->db->update('units', $data);
@@ -293,12 +299,13 @@ class Admin extends CI_Controller {
         $report_id = $this->input->post('id');
         $c_code = $this->db->get_where('report', array('Id' => $report_id))->row()->complaint_code;
 
-        $data['status'] = $status;
-
-        $this->db->where('Id', $report_id);
-        $this->db->update('report', $data);
-
         if ($status == 1) {
+            $data['status'] = $status;
+
+            $this->db->where('Id', $report_id);
+            $this->db->update('report', $data);
+
+            //Send Email
             $email_sub = "Complaint Report Status";
             $email_msg = "Hi, ".$user_name."<br><br>"
                 ."We already started to evaluate your complaint with reference code #".$c_code.".<br>"
@@ -306,26 +313,40 @@ class Admin extends CI_Controller {
                 ."Thank you";
 
             $this->crud_model->phpmailer($user_email, $email_sub, $email_msg);
-        }
+        }   
         else if ($status == 2) {
+            $data['to_endorsed'] = $this->input->post('to_endorsed');;
+            $data['status'] = $status;
+            
+            $this->db->where('Id', $report_id);
+            $this->db->update('report', $data);
+
+            //Send Email
             $email_sub = "Complaint Report Status";
             $email_msg = "Hi, ".$user_name."<br><br>"
-                ."We already started to endorse your complaint with reference code #".$c_code.".<br>"
+                ."We already endorse your complaint to ".$data['to_endorsed']." with reference code #".$c_code.".<br>"
                 ."Check your account regularly to check the status of your complaint<br><br>"
                 ."Thank you";
 
              $this->crud_model->phpmailer($user_email, $email_sub, $email_msg);
         }
-        else if ($status == 3) {
+        else if ($status == 3){
+            $data['date_solved'] = date("Y/m/d h:i:s");;
+            $data['status'] = $status;
+
+            $this->db->where('Id', $report_id);
+            $this->db->update('report', $data);
+
+            //Send Email
             $email_sub = "Complaint Report Status";
             $email_msg = "Hi, ".$user_name."<br><br>"
-                ."We already resolve your complaint  with referencewith reference code #".$c_code.".<br>"
+                ."We already resolve your complaint with reference code #".$c_code.".<br>"
                 ."Please check your account to view the full details.<br><br>"
                 ."Thank you";
 
             $this->crud_model->phpmailer($user_email, $email_sub, $email_msg);
-        }        
-       
+        }
+        
     }
 
 }

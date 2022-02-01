@@ -135,6 +135,22 @@ class Client extends CI_Controller {
             "option3" => $this->input->post('rel_option3')
         );
 
+        $wit_conf = array(
+            "day" => $this->input->post('wit_day'),
+            "month" => $this->input->post('wit_month'),
+            "year" => $this->input->post('wit_year'),
+            "location" => $this->input->post('wit_loc')
+        );
+
+        $subs_sworn_subs = array(
+            "day" => $this->input->post('ss_day'),
+            "month" => $this->input->post('ss_month'),
+            "cedula" => $this->input->post('ss_cedula'),
+            "date_issued" => $this->input->post('ss_date_issd'),
+            "loc_issued" => $this->input->post('ss_loc_issd'),
+            "govid_no" => $this->input->post('ss_govid_no')
+        );
+
         $code = substr(md5(uniqid(rand(), true)), 0, 7);
 
         $data['complaint_code'] = $code; 
@@ -151,38 +167,115 @@ class Client extends CI_Controller {
         $data['coa_naration'] = $this->input->post('coa_narr');
         $data['relief_details'] = json_encode($r_opt);
         $data['relief_others'] = $this->input->post('rel_others');
+        $data['witness_conf'] = json_encode($wit_conf);
+        $data['subs_sworn_conf'] = json_encode($subs_sworn_subs);
         $data['evidence_image_link'] = $this->input->post('evidence_title_image');
+        $data['idcard_image_link'] = $this->input->post('idcard_title_image');
+        $data['cedula_image_link'] = $this->input->post('cedula_title_image');
+        $data['signature_link'] = $this->input->post('sig_title_image');
         $data['establishment_location'] = $this->input->post('gps_location');
         $data['date_reported'] = date("Y/m/d h:i:s");
         $data['date_solved'] = "";
         $data['status'] = "0";
 
         $this->db->insert('report', $data);
-        echo 200;
+        echo '200-'.$code;
 
     }
 
-    function upload_image(){  
+    function upload_image($param1 = "")
+    {  
 
-        if($_FILES["evidence"]["name"] != '')
+        if ($this->session->userdata('client_login') != 1)
+        {
+            redirect(base_url(), 'refresh');
+        }
+
+        if ($param1 == "evidence") {
+
+            if($_FILES["evidence"]["name"] != '')
             {
-             $test = explode('.', $_FILES["evidence"]["name"]);
-             $ext = end($test);
-             $code = substr(md5(rand(100000000, 200000000)), 0, 10);
-             $name = 'img-'.$code . '.' . $ext;
-             $location = './uploads/evidence_image/' . $name;  
+                $test = explode('.', $_FILES["evidence"]["name"]);
+                $ext = end($test);
+                $code = substr(md5(rand(100000000, 200000000)), 0, 10);
+                $name = 'img-'.$code . '.' . $ext;
+                $location = './uploads/evidence_image/' . $name;  
 
-            ini_set( 'memory_limit', '200M' );
-            ini_set('upload_max_filesize', '200M');  
-            ini_set('post_max_size', '200M');  
-            ini_set('max_input_time', 3600);  
-            ini_set('max_execution_time', 3600);
+                ini_set( 'memory_limit', '200M' );
+                ini_set('upload_max_filesize', '200M');  
+                ini_set('post_max_size', '200M');  
+                ini_set('max_input_time', 3600);  
+                ini_set('max_execution_time', 3600);
 
-            move_uploaded_file($_FILES["evidence"]["tmp_name"], $location);
-            echo '<img src="'.base_url().$location.'" height="150" width="225" class="img-thumbnail" /> <input type="hidden" name="file_code" value="'.$code.'"/><br> 
-                <small name="file_size"> size: '.$this->formatBytes($_FILES["evidence"]["size"]).'</small><br><input type="hidden" name="evidence_title_image" id="evidence_title_image" value="'.$name.'"/><input type="hidden" name="file_ext" id="file_ext" value="'.$ext.'"/><br><button onclick="remove_file();" class="btn btn-sm btn-danger view_control"><i class="picons-thin-icon-thin-0056_bin_trash_recycle_delete_garbage_empty"></i> Remove</button>';
+                move_uploaded_file($_FILES["evidence"]["tmp_name"], $location);
+
+                echo '<img src="'.base_url().$location.'" height="150" width="225" class="img-thumbnail" /> <input type="hidden" name="file_code" value="'.$code.'"/><br> 
+                    <small name="file_size"> size: '.$this->formatBytes($_FILES["evidence"]["size"]).'</small><br>
+                    <input type="hidden" name="evidence_title_image" id="evidence_title_image" value="'.$name.'"/>
+                    <input type="hidden" name="evidence_file_ext" id="evidence_file_ext" value="'.$ext.'"/><br>
+                    <button onclick="remove_file(1);" class="btn btn-sm btn-danger view_control">
+                    <i class="picons-thin-icon-thin-0056_bin_trash_recycle_delete_garbage_empty"></i> Remove</button>';
              
             }
+
+        }
+        else if($param1 == "idcard") 
+        {
+
+            if($_FILES["idcard"]["name"] != '')
+            {
+                $test = explode('.', $_FILES["idcard"]["name"]);
+                $ext = end($test);
+                $code = substr(md5(rand(100000000, 200000000)), 0, 10);
+                $name = 'img-'.$code . '.' . $ext;
+                $location = './uploads/idcard_image/' . $name;  
+
+                ini_set('memory_limit', '200M');
+                ini_set('upload_max_filesize', '200M');  
+                ini_set('post_max_size', '200M');  
+                ini_set('max_input_time', 3600);  
+                ini_set('max_execution_time', 3600);
+
+                move_uploaded_file($_FILES["idcard"]["tmp_name"], $location);
+
+                echo '<img src="'.base_url().$location.'" height="150" width="225" class="img-thumbnail" /> <input type="hidden" name="file_code" value="'.$code.'"/><br> 
+                    <small name="file_size"> size: '.$this->formatBytes($_FILES["idcard"]["size"]).'</small><br>
+                    <input type="hidden" name="idcard_title_image" id="idcard_title_image" value="'.$name.'"/>
+                    <input type="hidden" name="file_ext" id="idcard_file_ext" value="'.$ext.'"/><br>
+                    <button onclick="remove_file(2);" class="btn btn-sm btn-danger view_control">
+                    <i class="picons-thin-icon-thin-0056_bin_trash_recycle_delete_garbage_empty"></i> Remove</button>';
+            }
+
+        }
+        else if($param1 == "cedula") 
+        {
+
+            if($_FILES["cedula"]["name"] != '')
+            {
+                $test = explode('.', $_FILES["cedula"]["name"]);
+                $ext = end($test);
+                $code = substr(md5(rand(100000000, 200000000)), 0, 10);
+                $name = 'img-'.$code . '.' . $ext;
+                $location = './uploads/cedula_image/' . $name;  
+
+                ini_set( 'memory_limit', '200M' );
+                ini_set('upload_max_filesize', '200M');  
+                ini_set('post_max_size', '200M');  
+                ini_set('max_input_time', 3600);  
+                ini_set('max_execution_time', 3600);
+
+                move_uploaded_file($_FILES["cedula"]["tmp_name"], $location);
+
+                echo '<img src="'.base_url().$location.'" height="150" width="225" class="img-thumbnail" /> <input type="hidden" name="file_code" value="'.$code.'"/><br> 
+                    <small name="file_size"> size: '.$this->formatBytes($_FILES["cedula"]["size"]).'</small><br>
+                    <input type="hidden" name="cedula_title_image" id="cedula_title_image" value="'.$name.'"/>
+                    <input type="hidden" name="file_ext" id="file_ext" value="'.$ext.'"/><br>
+                    <button onclick="remove_file(3);" class="btn btn-sm btn-danger view_control">
+                    <i class="picons-thin-icon-thin-0056_bin_trash_recycle_delete_garbage_empty"></i> Remove</button>';
+             
+            }
+
+        }
 
     }
 
@@ -197,6 +290,65 @@ class Client extends CI_Controller {
         $base = log($size, 1024);
         $suffixes = array('B', 'KB', 'MB', 'GB', 'TB');   
         return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
+    }
+
+    function upload_signature() {
+
+        if ($this->session->userdata('client_login') != 1)
+        {
+            redirect(base_url(), 'refresh');
+        }
+
+        $sig_img = $this->input->post('sig_image');
+
+        if ($sig_img != '') {
+
+            $folderPath = "./uploads/signature_image/";
+ 
+            $image_parts = explode(";base64,", $sig_img);
+             
+            $image_type_aux = explode("image/", $image_parts[0]);
+             
+            $image_type = $image_type_aux[1];
+             
+            $image_base64 = base64_decode($image_parts[1]);
+
+            $file_name = uniqid() . '.'.$image_type;
+             
+            $file = $folderPath . $file_name;
+             
+            file_put_contents($file, $image_base64);
+
+            echo '<img src="'.base_url().$file.'" height="150" width="300" class="img-thumbnail" /> 
+                <input type="hidden" name="sig_title_image" id="sig_title_image" value="'.$file_name.'"/>
+                <center><button onclick="remove_file(4);" class="btn btn-sm btn-danger view_control mt-2">
+                <i class="picons-thin-icon-thin-0056_bin_trash_recycle_delete_garbage_empty"></i> Remove</button><center>';
+
+        }
+
+    }
+
+    function download_qrcode($param1 = "") {
+
+        //$link = base_url()."index/complaint_report_details/".$param1;
+        //$qrcode_link = "https://chart.googleapis.com/chart?cht=qr&chl=" . $link . "&chs=140x140&chld=L|0";
+        $urls = "https://chart.googleapis.com/chart?cht=qr&chl=HAHAHAHA&chs=140x140&chld=L|0";
+        $qrcode_link = $this->crud_model->encodeURIComponent($urls);
+
+        // take URL from GET method
+        $url = $qrcode_link;
+     
+        // define file transfer
+        header('Content-Description: File Transfer');
+
+        // define content type as PNG image
+        header("Content-type: image/png");
+
+        // define unique file name and tell that it is an attachment
+        header("Content-disposition: attachment; filename= qrcode_".time().".png");
+
+        // read and file
+        readfile($url);
     }
 
 }

@@ -1,8 +1,9 @@
 /*
 SQLyog Ultimate v11.11 (32 bit)
-MySQL - 5.7.31 : Database - pmrs
+MySQL - 5.7.31 : Database - epiz_30959203_pmrs
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -12,9 +13,9 @@ MySQL - 5.7.31 : Database - pmrs
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`pmrs` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`epiz_30959203_pmrs` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `pmrs`;
+USE `epiz_30959203_pmrs`;
 
 /*Table structure for table `commodity_type` */
 
